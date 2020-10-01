@@ -1,0 +1,7 @@
+{
+  "name": "Collapse All Categories",
+  "description": "Collapses all categories in the guild.",
+  "author": "lav#5778",
+  "version": "1.0.0",
+  "license": "MIT"
+}
