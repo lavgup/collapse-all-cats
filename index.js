@@ -9,7 +9,6 @@ Object.defineProperties(press, { keyCode: { value: 65 }, which: { value: 65 } })
 class CollapseAllCats extends Plugin {
     async startPlugin() {
         await this.injectMenu();
-        await this.injectContextMenu();
     }
 
     async injectMenu() {
@@ -31,27 +30,6 @@ class CollapseAllCats extends Plugin {
         });
 
         Menu.default.displayName = 'Menu';
-    }
-
-    async injectContextMenu() {
-        const { MenuGroup, MenuItem } = await getModule(['MenuItem']);
-        const GuildContextMenu = await getModule(m => m.default && m.default.displayName === 'GuildContextMenu');
-
-        inject('collapse-cats-context-menu', GuildContextMenu, 'default', (args, res) => {
-            res.props.children.unshift(
-                React.createElement(MenuGroup, {},
-                    React.createElement(MenuItem, {
-                        id: 'collapse-cats-context-menu',
-                        key: 'collapse-cats',
-                        label: 'Collapse Categories',
-                        action: () => this.collapseCategories()
-                    })
-                )
-            );
-            return res;
-        });
-
-        GuildContextMenu.default.displayName = 'GuildContextMenu';
     }
 
     collapseCategories() {
