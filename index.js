@@ -1,13 +1,19 @@
+const i18n = require('./i18n');
 const { Plugin } = require('powercord/entities');
 const { findInReactTree } = require('powercord/util');
-const { getModule, React } = require('powercord/webpack');
 const { inject, uninject } = require('powercord/injector');
+const {
+    getModule,
+    React,
+    i18n: { Messages }
+} = require('powercord/webpack');
 
 const press = new KeyboardEvent('keydown', { which: 65, keyCode: 65, shiftKey: true, ctrlKey: true, bubbles: true });
 Object.defineProperties(press, { keyCode: { value: 65 }, which: { value: 65 } });
 
 class CollapseAllCats extends Plugin {
     async startPlugin() {
+        powercord.api.i18n.loadAllStrings(i18n);
         await this.injectMenu();
     }
 
@@ -21,7 +27,7 @@ class CollapseAllCats extends Plugin {
                 children.unshift(
                     React.createElement(Menu.MenuGroup, null, React.createElement(Menu.MenuItem, {
                         id: 'collapse-cats-menu',
-                        label: 'Collapse Categories',
+                        label: Messages.COLLAPSE_CATEGORIES,
                         action: () => this.collapseCategories()
                     }))
                 );
@@ -38,7 +44,7 @@ class CollapseAllCats extends Plugin {
 
     pluginWillUnload() {
         uninject('collapse-cats-menu');
-        uninject('collapse-cats-context-menu')
+        uninject('collapse-cats-context-menu');
     }
 }
 
